@@ -74,6 +74,7 @@ public class CompteBancaire implements Serializable {
         this.solde = solde;
     }
 
+    
     public CompteBancaire() {
     }
     
