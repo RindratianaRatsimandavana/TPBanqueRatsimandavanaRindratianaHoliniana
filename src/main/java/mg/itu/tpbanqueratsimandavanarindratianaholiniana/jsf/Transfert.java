@@ -8,6 +8,7 @@ import jakarta.inject.Named;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import mg.itu.tpbanqueratsimandavanarindratianaholiniana.entity.CompteBancaire;
+import mg.itu.tpbanqueratsimandavanarindratianaholiniana.jsf.util.Util;
 import mg.itu.tpbanqueratsimandavanarindratianaholiniana.service.GestionnaireCompte;
 
 /**
@@ -55,13 +56,34 @@ public class Transfert {
     public String effectuerTransfert() {
         CompteBancaire source = gestionnaireCompte.getCompteById(idSource);
         CompteBancaire destination = gestionnaireCompte.getCompteById(idDestination);
-        if (source != null && destination != null) {
-            gestionnaireCompte.transferer(source, destination, (int) montant);
-            return "listeComptes?faces-redirect=true";
-        } else {
-            // Gérer les cas où les comptes source ou destination n'existent pas
+        boolean erreur = false;
+
+        if (source == null) {
+            Util.messageErreur("Aucun compte source avec cet id !", "Aucun compte avec cet id !", "form:source");
+            erreur = true;
+        }
+
+        if (destination == null) {
+            Util.messageErreur("Aucun compte destination avec cet id !", "Aucun compte avec cet id !", "form:destination");
+            erreur = true;
+        }
+
+        if (erreur) {
+            return null; // En cas d'erreur, rester sur la même page
+        }
+
+        if (source.getSolde() < montant) {
+            Util.messageErreur("Solde insuffisant pour le compte source", "Solde insuffisant pour le compte source", "form:montant");
             return null;
         }
+
+        gestionnaireCompte.transferer(source, destination, (int) montant);
+
+        // Message de succès avec redirection
+        String message = "Transfert de " + montant + " effectué de " + source.getNom() + " à " + destination.getNom();
+        Util.addFlashInfoMessage(message);
+
+        return "listeComptes?faces-redirect=true";
     }
 
 }
