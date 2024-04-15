@@ -40,8 +40,8 @@ public class GestionnaireCompte {
     private EntityManager em;
 
     public List<CompteBancaire> getAllCompteBancaires() {
-        String s = "select c from CompteBancaire as c"; 
-        TypedQuery<CompteBancaire> query = em.createQuery(s, CompteBancaire.class); 
+        String s = "select c from CompteBancaire as c";
+        TypedQuery<CompteBancaire> query = em.createQuery(s, CompteBancaire.class);
         List<CompteBancaire> liste = query.getResultList(); // Exécute la requête et récupère les résultats sous forme de liste d'objets Employe
         return liste;
     }
@@ -50,10 +50,28 @@ public class GestionnaireCompte {
     public void creerCompte(CompteBancaire compteBancaire) {
         em.persist(compteBancaire);
     }
-    
+
     public long nbComptes() {
         Query query = em.createQuery("SELECT COUNT(c) FROM CompteBancaire c");
         return (long) query.getSingleResult();
+    }
+
+    @Transactional
+    public void transferer(CompteBancaire source, CompteBancaire destination,
+            int montant) {
+        source.retirer(montant);
+        destination.deposer(montant);
+        update(source);
+        update(destination);
+    }
+
+    @Transactional
+    public CompteBancaire update(CompteBancaire compteBancaire) {
+        return em.merge(compteBancaire);
+    }
+    
+    public CompteBancaire getCompteById(Long id) {
+        return em.find(CompteBancaire.class, id);
     }
 
 }
