@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/template/template_defaut.xhtml">
+
+            <ui:define name="metadata">
+                <f:metadata>  
+                    <f:viewParam name="id" value="#{modification.id}"  
+                                 required="true"/>  
+                    <f:viewAction action="#{modification.loadCompte}"/>  
+                </f:metadata>
+            </ui:define>
+
+            <ui:define name="top">
+                Modification de nom
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="ID du compte :"/>
+                        <h:outputText value="#{modification.compte.id}"/>
+
+                        <h:outputLabel value="Nom actuel du possesseur :"/>
+                        <h:outputText value="#{modification.compte.nom}"/>
+
+                        <h:outputLabel value="Nouveau nom du possesseur :"/>
+                        <h:inputText value="#{modification.nouveauNom}"/>
+                    </h:panelGrid>
+                    <h:commandButton action="#{modification.updateName()}"
+                                     value="Modifier le nom"/>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

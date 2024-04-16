@@ -98,4 +98,15 @@ public class GestionnaireCompte {
         update(compteBancaire);
     }
 
+    @Transactional
+    public void supprimerCompte(CompteBancaire compte) {
+        em.remove(em.merge(compte));
+    }
+    
+    @Transactional
+    public void modifierNom(CompteBancaire compteBancaire, String nouveauNom) {
+        compteBancaire.changerNom(nouveauNom);
+        update(compteBancaire);
+    }
+
 }

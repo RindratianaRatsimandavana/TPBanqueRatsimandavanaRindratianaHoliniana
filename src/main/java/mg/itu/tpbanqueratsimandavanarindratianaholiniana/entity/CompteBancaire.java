@@ -74,10 +74,9 @@ public class CompteBancaire implements Serializable {
         this.solde = solde;
     }
 
-    
     public CompteBancaire() {
     }
-    
+
     public CompteBancaire(String nom, int solde) {
         this.nom = nom;
         this.solde = solde;
@@ -94,7 +93,9 @@ public class CompteBancaire implements Serializable {
             solde = 0;
         }
     }
-    
-    
+
+    public void changerNom(String nouveauNom) {
+        this.nom = nouveauNom;
+    }
 
 }

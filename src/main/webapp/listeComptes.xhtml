@@ -16,31 +16,31 @@
 
             <ui:define name="content">
                 <h:form>
-                    <h:dataTable value="#{listeComptes.allComptes}"
-                                 var="item">
-                        <h:column>
+                    <p:dataTable value="#{listeComptes.allComptes}"
+                                 var="item" tableStyle="width:auto;">
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Id"/>
                             </f:facet>
                             <h:link outcome="mouvement?id=#{item.id}" 
                                     value="#{item.id}"/>
-                        </h:column>
+                        </p:column>
 
-                        <h:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
                             </f:facet>
                             <h:outputText value="#{item.nom}"/>
-                        </h:column>
+                        </p:column>
 
-                        <h:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Solde"/>
                             </f:facet>
                             <h:outputText value="#{item.solde}"/>
-                        </h:column>
+                        </p:column>
 
-                        <h:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Opérations"/>
                             </f:facet>
@@ -48,8 +48,17 @@
                                            title="Supprimer le compte de #{item.nom}" >
                                 <h:graphicImage name="images/delete.png" style="height: 30px"/>
                             </h:commandLink>
-                        </h:column>
-                    </h:dataTable>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Modifier le nom du possesseur de compte"/>
+                            </f:facet>
+                            <h:link outcome="modificationNom?id=#{item.id}" 
+                                    value="Modification"/>
+                        </p:column>
+
+                    </p:dataTable>
                 </h:form>
                 <h:messages/>
             </ui:define>
